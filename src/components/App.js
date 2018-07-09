@@ -4,6 +4,7 @@ import {
 } from 'antd';
 
 import RecordTable from 'components/RecordTable';
+import Pagination from 'components/Pagination';
 
 import AppHeader from 'components/AppHeader';
 import AppFooter from 'components/AppFooter';
@@ -24,8 +25,16 @@ class App extends Component {
     // this.setState({ searchTerm });
   }
 
+  onChangePage = (pageNo) => {
+    const { pageChange } = this.props;
+    pageChange(pageNo);
+  }
+
   render() {
-    const { records, isLoading } = this.props;
+    const {
+      records, isLoading,
+      pageNo, pageSize, totalRecords,
+    } = this.props;
     return (
       <Layout className="layout">
         <BackTop />
@@ -34,9 +43,17 @@ class App extends Component {
           <div className="content">
             <Search
               onSearch={this.onSearch}
+              placeholder="Search for records after departure date (e.g. 25/03/2018)"
               enterButton
             />
             <RecordTable records={records} isLoading={isLoading} />
+            <Pagination
+              showingNow={records && records.length}
+              pageNo={pageNo}
+              pageSize={pageSize}
+              totalRecords={totalRecords}
+              changePage={this.onChangePage}
+            />
           </div>
         </Content>
         <AppFooter />

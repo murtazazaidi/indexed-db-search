@@ -5,6 +5,7 @@ import {
   LOAD_MORE_DATA_INIT,
   LOAD_DATA_SUCCESS,
   LOAD_DATA_FAILED,
+  PAGE_CHANGE,
 } from 'action-labels/recordLabels';
 
 // normal actions
@@ -25,6 +26,11 @@ export const loadDataSuccess = data => ({
 
 export const loadDataFailed = data => ({
   type: LOAD_DATA_FAILED,
+  data,
+});
+
+export const pageChange = data => ({
+  type: PAGE_CHANGE,
   data,
 });
 

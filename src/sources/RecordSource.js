@@ -3,7 +3,7 @@ import {
   loadDataSuccess,
 } from 'store/actions/RecordActions';
 
-import records from 'sources/RecordGenerator';
+import records from 'sources/recordGenerator';
 
 import normalize from 'normalizers/recordsList';
 
@@ -14,7 +14,7 @@ const loadData = () => ((dispatch) => {
     dispatch(loadDataSuccess(
       recordsNormalized,
     ));
-  }, 3000);
+  }, 2000);
 });
 
 export default loadData;

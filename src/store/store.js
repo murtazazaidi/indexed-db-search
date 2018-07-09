@@ -23,7 +23,7 @@ const store = createStore(
 
 store.subscribe(throttle(() => {
   saveState({
-    record: store.getState().record,
+    // record: store.getState().record,
   });
 }, 3000));
 
