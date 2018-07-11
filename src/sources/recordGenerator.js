@@ -1,10 +1,12 @@
 const BASE_LINE = 1000000;
 const NUM_OF_RECORDS = 30000;
 
-function randomDate() {
-  const start = new Date('01-01-2018');
-  const end = new Date('01-01-2019');
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+
+const start = new Date('01-01-2018').getTime();
+const end = new Date('01-01-2019').getTime();
+
+function randomEpoch() {
+  return Math.floor(start + Math.random() * (end - start));
 }
 
 function* recordGenerator() {
@@ -17,8 +19,8 @@ function* recordGenerator() {
       id: bogusId,
       depPositionId: bogusId,
       arrPositionId: bogusId,
-      createdAt: new Date((now / 100000 - index) * 100000),
-      departureTime: randomDate(),
+      createdAt: (now / 100000 - index) * 100000,
+      departureTime: randomEpoch(),
     };
   }
 }

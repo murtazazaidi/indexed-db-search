@@ -36,6 +36,21 @@ export const putBulkData = async (records) => {
   db.close();
 };
 
+export const getData = async (key, lowerBound, useIndex = false, indexField = INDEX_KEY) => {
+  const { tx } = await getDatabase();
+  const store = tx.objectStore(OBJECT_STORE_NAME);
+  const source = useIndex ? store.index(indexField) : store;
+
+  if (key !== null) {
+    return source.get(key);
+  }
+
+  let keyRangeValue;
+  if (lowerBound) keyRangeValue = IDBKeyRange.lowerBound(lowerBound);
+
+  return source.getAll(keyRangeValue);
+};
+
 export const putData = async (record) => {
   const { db, tx } = await getDatabase();
   const store = tx.objectStore(OBJECT_STORE_NAME);
@@ -54,18 +69,6 @@ export const deleteData = async (key) => {
   await tx.complete;
 
   db.close();
-};
-
-export const getData = async (key, useIndex = false, indexField = INDEX_KEY) => {
-  const { tx } = await getDatabase();
-  const store = tx.objectStore(OBJECT_STORE_NAME);
-  const source = useIndex ? store.index(indexField) : store;
-
-  if (key !== null) {
-    return source.get(key);
-  }
-
-  return source.getAll();
 };
 
 export const getCount = async (useIndex = false, indexField = INDEX_KEY) => {

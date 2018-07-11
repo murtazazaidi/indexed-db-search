@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Col, Table } from 'antd';
 
-const renderDate = (datetime) => {
-  const date = new Date(datetime);
+const renderDate = (epoch) => {
+  const date = new Date(epoch);
   const hours = date.getHours();
   const minutes = date.getMinutes();
   return (

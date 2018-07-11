@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Layout, BackTop, Input,
-} from 'antd';
+import { Layout, BackTop } from 'antd';
 
 import RecordTable from 'components/RecordTable';
 import Pagination from 'components/Pagination';
@@ -10,18 +8,15 @@ import AppHeader from 'components/AppHeader';
 import AppFooter from 'components/AppFooter';
 
 import './App.css';
+import SearchBox from './SearchBox';
 
 const { Content } = Layout;
-
-const { Search } = Input;
 
 class App extends Component {
   componentDidMount() {
     const { loadData } = this.props;
     loadData();
   }
-
-  onSearch = () => {}
 
   onChangePage = (pageNo) => {
     const { pageChange } = this.props;
@@ -32,6 +27,8 @@ class App extends Component {
     const {
       records, isLoading,
       pageNo, pageSize, totalRecords,
+      showingSearchData, searchEpoch,
+      clearSearch, searchData,
     } = this.props;
     return (
       <Layout className="layout">
@@ -39,10 +36,11 @@ class App extends Component {
         <AppHeader />
         <Content className="container">
           <div className="content">
-            <Search
-              onSearch={this.onSearch}
-              placeholder="Search for records after departure date (e.g. 25/03/2018)"
-              enterButton
+            <SearchBox
+              showingSearchData={showingSearchData}
+              searchEpoch={searchEpoch}
+              clearSearch={clearSearch}
+              searchData={searchData}
             />
             <RecordTable records={records} isLoading={isLoading} />
             <Pagination

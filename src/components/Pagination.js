@@ -51,8 +51,8 @@ class Pagination extends Component {
     } = this.props;
     const totalPages = Math.ceil(totalRecords / pageSize) || 1;
     const pageButtons = getPageButtons(pageNo, pageSize, totalRecords, this.onChangePage);
-    const start = ((pageNo - 1) * pageSize) + 1;
-    const end = start + showingNow - 1;
+    const start = !showingNow ? 0 : ((pageNo - 1) * pageSize) + 1;
+    const end = !showingNow ? 0 : start + showingNow - 1;
     const pageDetails = `Showing ${start} to ${end} of ${totalRecords || 0}`;
     return (
       <Row type="flex" align="middle">

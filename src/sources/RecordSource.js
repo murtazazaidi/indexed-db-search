@@ -1,7 +1,8 @@
 import {
   loadDataInit,
   loadDataSuccess,
-  pageChange,
+  searchInit,
+  searchSuccess,
 } from 'store/actions/RecordActions';
 
 import { putBulkData, getData } from 'utils/indexedDB';
@@ -15,17 +16,19 @@ const RECORD_SOURCE_KEY = 'rs-last-downloaded';
 
 export const loadDataFromAPI = () => (async (dispatch) => {
   dispatch(loadDataInit());
+
+  // Checking for local copy before making API call
   const lastDownloaded = localStorage.getItem(RECORD_SOURCE_KEY);
   if (lastDownloaded) {
-    const start = 0;
-    const end = PAGE_SIZE;
     const recordsData = await getData(null) || [];
     dispatch(loadDataSuccess({
-      dataList: recordsData.slice(start, end),
+      dataList: recordsData,
       totalRecords: recordsData.length,
     }));
     return;
   }
+
+  // Local data not found (or stale), making (mocking) API call
   await setTimeout(() => {}, 2000);
   const recordsNormalized = normalize(records);
   putBulkData(recordsNormalized);
@@ -36,12 +39,11 @@ export const loadDataFromAPI = () => (async (dispatch) => {
   }));
 });
 
-export const loadDataFromLocal = pageNo => (async (dispatch) => {
-  const start = (pageNo - 1) * PAGE_SIZE;
-  const end = start + PAGE_SIZE;
-  const recordsData = await getData(null) || [];
-  dispatch(pageChange({
-    pageNo,
-    records: recordsData.slice(start, end),
+export const loadSortedDataFromLocal = lowerBound => (async (dispatch) => {
+  dispatch(searchInit(lowerBound));
+  const recordsData = await getData(null, lowerBound, true) || [];
+  dispatch(searchSuccess({
+    dataList: recordsData,
+    totalRecords: recordsData.length,
   }));
 });

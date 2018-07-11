@@ -2,28 +2,34 @@ import { connect } from 'react-redux';
 import App from 'components/App';
 
 import {
+  pageChange,
   loadDataAction,
-  pageChangeAction,
+  searchDataAction,
 } from 'store/actions/RecordActions';
 
 function mapStateToProps(state) {
   const { record } = state;
   const {
-    pageNo, pageSize, isLoading, dataList, totalRecords,
+    pageNo, pageSize, isLoading, records, totalRecords,
+    showingSearchData, searchEpoch,
   } = record;
   return {
-    records: dataList,
+    records,
     isLoading,
     pageNo,
     pageSize,
     totalRecords,
+    showingSearchData,
+    searchEpoch,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     loadData: () => dispatch(loadDataAction()),
-    pageChange: pageNo => dispatch(pageChangeAction(pageNo)),
+    clearSearch: () => dispatch(loadDataAction()),
+    pageChange: pageNo => dispatch(pageChange(pageNo)),
+    searchData: dateTime => dispatch(searchDataAction(dateTime)),
   };
 }
 
