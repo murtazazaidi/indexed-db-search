@@ -1,6 +1,6 @@
-const BASE_LINE = 1000000;
-const NUM_OF_RECORDS = 30000;
+import { NUM_OF_RECORDS } from 'config/constants';
 
+const BASE_LINE = 1000000;
 
 const start = new Date('01-01-2018').getTime();
 const end = new Date('01-01-2019').getTime();
