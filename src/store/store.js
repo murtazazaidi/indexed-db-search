@@ -5,7 +5,7 @@ import throttle from 'lodash/throttle';
 
 import reducers from 'store/reducers';
 
-import { saveState, loadState } from 'utils/storageUtils';
+import { saveState, loadState } from 'utils/localStorage';
 import { environments } from 'config/constants';
 
 const middleware = [thunk];
@@ -23,7 +23,7 @@ const store = createStore(
 
 store.subscribe(throttle(() => {
   saveState({
-    // record: store.getState().record,
+    record: store.getState().record,
   });
 }, 3000));
 

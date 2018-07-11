@@ -16,9 +16,9 @@ const renderDate = (datetime) => {
 };
 
 const columns = [{
-  title: 'User ID',
-  dataIndex: 'userId',
-  key: 'userId',
+  title: 'ID',
+  dataIndex: 'id',
+  key: 'id',
 }, {
   title: 'Departure ID',
   dataIndex: 'depPositionId',
@@ -46,7 +46,7 @@ const RecordTable = (props) => {
     <Row type="flex" align="middle" style={{ margin: 10 }}>
       <Col span={24}>
         <Table
-          rowKey={record => record.depPositionId}
+          rowKey={record => record.id}
           columns={columns}
           dataSource={records}
           loading={isLoading}

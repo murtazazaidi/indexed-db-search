@@ -1,8 +1,7 @@
-import loadData from 'sources/RecordSource';
+import { loadDataFromAPI, loadDataFromLocal } from 'sources/RecordSource';
 
 import {
   LOAD_DATA_INIT,
-  LOAD_MORE_DATA_INIT,
   LOAD_DATA_SUCCESS,
   LOAD_DATA_FAILED,
   PAGE_CHANGE,
@@ -11,11 +10,6 @@ import {
 // normal actions
 export const loadDataInit = userSearchTerm => ({
   type: LOAD_DATA_INIT,
-  data: userSearchTerm,
-});
-
-export const searchMoreUserInit = userSearchTerm => ({
-  type: LOAD_MORE_DATA_INIT,
   data: userSearchTerm,
 });
 
@@ -35,4 +29,5 @@ export const pageChange = data => ({
 });
 
 // Async Action
-export const loadDataAction = () => loadData();
+export const loadDataAction = () => loadDataFromAPI();
+export const pageChangeAction = pageNo => loadDataFromLocal(pageNo);

@@ -1,4 +1,5 @@
 const BASE_LINE = 1000000;
+const NUM_OF_RECORDS = 30000;
 
 function randomDate() {
   const start = new Date('01-01-2018');
@@ -13,9 +14,9 @@ function* recordGenerator() {
     const bogusId = BASE_LINE + index;
     const now = new Date().getTime();
     yield {
+      id: bogusId,
       depPositionId: bogusId,
       arrPositionId: bogusId,
-      userId: bogusId,
       createdAt: new Date((now / 100000 - index) * 100000),
       departureTime: randomDate(),
     };
@@ -24,7 +25,7 @@ function* recordGenerator() {
 
 const records = [];
 const gen = recordGenerator();
-for (let i = 0; i < 200000; i += 1) {
+for (let i = 0; i < NUM_OF_RECORDS; i += 1) {
   records.push(gen.next().value);
 }
 

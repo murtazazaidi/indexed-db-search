@@ -5,18 +5,20 @@ import { Row, Col, Button } from 'antd';
 
 const ButtonGroup = Button.Group;
 
-const PAGE_BUTTON_LIMIT = 3;
+const PAGE_BUTTON_LIMIT = 10;
 
 const getPageButtons = (pageNo, pageSize, totalRecords, changePage) => {
   const showPageNos = [];
   const totalPages = Math.ceil(totalRecords / pageSize) || 1;
-  let pageToAdd = pageNo - 1;
-  if (pageNo === 1) {
-    pageToAdd = pageNo;
-  } else if (pageNo + PAGE_BUTTON_LIMIT > totalPages) {
-    pageToAdd = totalPages - PAGE_BUTTON_LIMIT;
+  let pageToAdd = pageNo - Math.floor(PAGE_BUTTON_LIMIT / 2);
+
+  if (pageNo + PAGE_BUTTON_LIMIT - 1 > totalPages) {
+    pageToAdd = totalPages - PAGE_BUTTON_LIMIT + 1;
   }
-  while (showPageNos.length <= PAGE_BUTTON_LIMIT && pageToAdd <= totalPages) {
+  if (pageNo === 1 || pageToAdd < 1) {
+    pageToAdd = 1;
+  }
+  while (showPageNos.length < PAGE_BUTTON_LIMIT && pageToAdd <= totalPages) {
     showPageNos.push(pageToAdd);
     pageToAdd += 1;
   }
@@ -49,36 +51,31 @@ class Pagination extends Component {
     } = this.props;
     const totalPages = Math.ceil(totalRecords / pageSize) || 1;
     const pageButtons = getPageButtons(pageNo, pageSize, totalRecords, this.onChangePage);
+    const start = ((pageNo - 1) * pageSize) + 1;
+    const end = start + showingNow - 1;
+    const pageDetails = `Showing ${start} to ${end} of ${totalRecords || 0}`;
     return (
       <Row type="flex" align="middle">
-        <Col offset={12} span={6}>
-          Showing
-          {' '}
-          {showingNow || 0}
-          {' '}
-          of
-          {' '}
-          {totalRecords || 0}
-        </Col>
         <Col span={6}>
+          {pageDetails}
+        </Col>
+        <Col span={18}>
           <ButtonGroup>
-            {pageNo !== 1 && (
-              <Button
-                key="previous"
-                disabled={pageNo === 1}
-                onClick={() => { this.onChangePage(pageNo - 1); }}
-              >
-                &lt;
-              </Button>)}
+            <Button
+              key="previous"
+              disabled={pageNo === 1}
+              onClick={() => { this.onChangePage(pageNo - 1); }}
+            >
+              &lt;
+            </Button>
             {pageButtons}
-            {pageNo !== totalPages && (
-              <Button
-                key="next"
-                disabled={pageNo === totalPages}
-                onClick={() => { this.onChangePage(pageNo + 1); }}
-              >
-                &gt;
-              </Button>)}
+            <Button
+              key="next"
+              disabled={pageNo === totalPages}
+              onClick={() => { this.onChangePage(pageNo + 1); }}
+            >
+              &gt;
+            </Button>
           </ButtonGroup>
         </Col>
       </Row>

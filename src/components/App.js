@@ -17,13 +17,11 @@ const { Search } = Input;
 
 class App extends Component {
   componentDidMount() {
-    const { loadData, records, isLoading } = this.props;
-    if (!isLoading && (!records || !records.length)) loadData();
+    const { loadData } = this.props;
+    loadData();
   }
 
-  onSearch = () => {
-    // this.setState({ searchTerm });
-  }
+  onSearch = () => {}
 
   onChangePage = (pageNo) => {
     const { pageChange } = this.props;

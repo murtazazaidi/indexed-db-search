@@ -3,7 +3,7 @@ import App from 'components/App';
 
 import {
   loadDataAction,
-  pageChange,
+  pageChangeAction,
 } from 'store/actions/RecordActions';
 
 function mapStateToProps(state) {
@@ -11,10 +11,8 @@ function mapStateToProps(state) {
   const {
     pageNo, pageSize, isLoading, dataList, totalRecords,
   } = record;
-  const start = (pageNo - 1) * pageSize;
-  const end = start + pageSize;
   return {
-    records: dataList.slice(start, end),
+    records: dataList,
     isLoading,
     pageNo,
     pageSize,
@@ -25,7 +23,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     loadData: () => dispatch(loadDataAction()),
-    pageChange: pageNo => dispatch(pageChange(pageNo)),
+    pageChange: pageNo => dispatch(pageChangeAction(pageNo)),
   };
 }
 

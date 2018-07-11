@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 import * as recordLabels from 'action-labels/recordLabels';
 
+import { PAGE_SIZE } from 'config/constants';
+
 const initialState = {
   dataList: [],
   isLoading: false,
   pageNo: 1,
-  pageSize: 50,
+  pageSize: PAGE_SIZE,
   totalRecords: 0,
 };
 
@@ -18,18 +20,11 @@ export default function recordReducer(state = initialState, action) {
       });
       return state;
     }
-    case recordLabels.LOAD_MORE_DATA_INIT: {
-      state = Object.assign({}, state, {
-        isLoading: true,
-      });
-      return state;
-    }
     case recordLabels.LOAD_DATA_SUCCESS: {
-      const dataList = action.data;
-      const updatedList = state.dataList.concat(dataList);
+      const { dataList, totalRecords } = action.data;
       state = Object.assign({}, state, {
-        dataList: updatedList,
-        totalRecords: updatedList.length,
+        dataList,
+        totalRecords,
         isLoading: false,
         pageNo: 1,
       });
@@ -40,8 +35,8 @@ export default function recordReducer(state = initialState, action) {
       return state;
     }
     case recordLabels.PAGE_CHANGE: {
-      const pageNo = action.data;
-      state = Object.assign({}, state, { pageNo });
+      const { pageNo, records } = action.data;
+      state = Object.assign({}, state, { pageNo, dataList: records });
       return state;
     }
 
